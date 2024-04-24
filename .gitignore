@@ -15,3 +15,4 @@ docs/_build
 testpkg/build/
 testpkg/dist/
 testpkg/testpkg/static/css/*.scss.css
+/.pyodide*
