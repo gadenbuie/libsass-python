@@ -3,6 +3,7 @@ name: Build pyodide wheel
 on:
   push:
     branches: [dev]
+  workflow_dispatch:
 
 jobs:
   build-pyodide:
