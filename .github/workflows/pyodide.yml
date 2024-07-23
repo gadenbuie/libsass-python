@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: 3.12.2
 
       - run: |
           # Match pyodide version
@@ -25,7 +25,8 @@ jobs:
 
       - uses: mymindstorm/setup-emsdk@v14
         with:
-          version: ${{ env.EMSCRIPTEN_VERSION }}
+          # version: ${{ env.EMSCRIPTEN_VERSION }}
+          version: 3.1.58
 
       - run: pyodide build
 
