@@ -18,7 +18,9 @@ jobs:
           python-version: 3.11.3
 
       - run: |
-          pip install pyodide-build>=0.23.0
+          # Match pyodide version
+          # https://github.com/posit-dev/shinylive/blob/main/Makefile#L20C19-L20C25
+          pip install pyodide-build==0.26.0
           echo EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version) >> $GITHUB_ENV
 
       - uses: mymindstorm/setup-emsdk@v14
