@@ -3,6 +3,8 @@ name: Build pyodide wheel
 on:
   push:
     branches: [dev]
+  pull_request:
+    branches: [dev]
   workflow_dispatch:
 
 jobs:
@@ -55,6 +57,9 @@ jobs:
           path: dist/*.whl
 
   deploy:
+    # Pull requests only build, so the wheels can be checked before they are
+    # published.
+    if: github.event_name != 'pull_request'
     needs: build-pyodide
     runs-on: ubuntu-latest
     steps:
