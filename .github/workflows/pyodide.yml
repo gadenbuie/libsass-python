@@ -9,7 +9,10 @@ on:
 
 jobs:
   build-pyodide:
-    runs-on: macos-latest
+    # macOS because setup.py's Linux flags break the Emscripten build. Intel
+    # because GitHub is short on macOS arm64 runners, and jobs waiting for one
+    # were cancelled.
+    runs-on: macos-15-intel
     strategy:
       fail-fast: false
       matrix:
