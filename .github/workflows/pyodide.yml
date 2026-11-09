@@ -5,9 +5,6 @@ on:
     branches: [dev]
   workflow_dispatch:
 
-env:
-  PYODIDE_BUILD_VERSION: 0.39.3
-
 jobs:
   build-pyodide:
     runs-on: macos-latest
@@ -18,12 +15,21 @@ jobs:
         # Python that Pyodide ships, and Emscripten has to match its build.
         # `pyodide xbuildenv search --all` lists all three for each release.
         include:
+          # Wheel used by shinylive releases before the move off Pyodide 0.27.
+          # Newer pyodide-build names it `pyemscripten_2024_0` instead of
+          # `pyodide_2024_0`, so keep the old one. It needs `wheel<0.46`.
+          - pyodide: 0.26.3
+            python: "3.12"
+            emscripten: 3.1.58
+            pyodide-build: 'pyodide-build==0.26.3 "wheel<0.46"'
           - pyodide: 0.29.5
             python: "3.13"
             emscripten: 4.0.9
+            pyodide-build: "pyodide-build==0.39.3"
           - pyodide: 314.0.7
             python: "3.14"
             emscripten: 5.0.3
+            pyodide-build: "pyodide-build==0.39.3"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +40,7 @@ jobs:
           python-version: ${{ matrix.python }}
 
       - run: |
-          pip install pyodide-build==${{ env.PYODIDE_BUILD_VERSION }}
+          pip install ${{ matrix.pyodide-build }}
           pyodide xbuildenv install ${{ matrix.pyodide }}
 
       - uses: mymindstorm/setup-emsdk@v14
