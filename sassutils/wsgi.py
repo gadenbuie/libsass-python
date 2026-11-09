@@ -3,7 +3,7 @@
 
 """
 import collections.abc
-import importlib.resources
+import importlib
 import logging
 import os.path
 
@@ -106,7 +106,9 @@ class SassMiddleware:
         for package_name in self.manifests:
             if package_name in self.package_dir:
                 continue
-            path = str(importlib.resources.files(package_name))
+            path = os.path.dirname(
+                importlib.import_module(package_name).__file__,
+            )
             self.package_dir[package_name] = path
         self.paths = []
         for package_name, manifest in self.manifests.items():
